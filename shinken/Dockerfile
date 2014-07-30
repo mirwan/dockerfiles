@@ -3,7 +3,7 @@ MAINTAINER mirwan666@gmail.com
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -y install python-pip libcurl4-gnutls-dev python-dev
-RUN adduser --disabled-password --home /var/lib/shinken --shell /bin/sh --quiet shinken
+RUN useradd -d /var/lib/shinken -s /bin/sh -m shinken
 RUN pip install shinken pycurl 
 USER shinken
 RUN shinken --init
