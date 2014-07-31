@@ -15,8 +15,7 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2/apache2.pid
 ADD vhost.conf /etc/apache2/sites-available/default
 ADD thruk_local.conf /etc/thruk/thruk_local.conf
-RUN sed -i -e "s/##SHINKEN_LIVESTATUS_HOST##/${SHINKEN_LIVESTATUS_HOST}/" -e "s/##SHINKEN_LIVESTATUS_PORT##/${SHINKEN_LIVESTATUS_PORT}/" /etc/thruk/thruk_local.conf
-RUN htpasswd -b -c /etc/thruk/htpasswd thrukadmin -b ${THRUK_PASSWORD}
+ADD runtime_setup.sh /runtime_setup.sh
 RUN a2enmod fcgid rewrite
 EXPOSE 80
-CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
+CMD /runtime_setup.sh && /usr/sbin/apache2 -D FOREGROUND
