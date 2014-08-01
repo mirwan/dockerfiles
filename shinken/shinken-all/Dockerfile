@@ -3,9 +3,6 @@ MAINTAINER mirwan666@gmail.com
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -y install python-pip libcurl4-gnutls-dev python-dev supervisor nagios-plugins git python-setuptools python-cherrypy3
-RUN apt-get -y install wget
-RUN wget http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
-RUN dpkg -i influxdb_latest_amd64.deb
 RUN useradd -d /var/lib/shinken -s /bin/sh -m shinken
 RUN pip install pycurl 
 RUN pip install riemann-client
@@ -14,6 +11,7 @@ WORKDIR /shinken
 RUN python setup.py install
 RUN shinken --init
 RUN shinken install mod-influxdb
+RUN pip install influxdb
 RUN shinken install livestatus
 RUN sed -i -r 's/^(.+modules)/\1 livestatus, mod-riemann, mod-influxdb/' /etc/shinken/brokers/broker-master.cfg
 RUN shinken install mod-riemann
