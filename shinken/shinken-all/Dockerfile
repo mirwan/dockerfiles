@@ -16,10 +16,10 @@ RUN pip install influxdb
 RUN shinken install livestatus
 RUN sed -i -r 's/^([^#]+modules).*/\1 livestatus, mod-riemann, mod-influxdb, graphite/' /etc/shinken/brokers/broker-master.cfg
 #RUN sed -i -r 's/^([^#]+modules).*/\1 named-pipe, mysql-import, collectd/' /etc/shinken/arbiters/arbiter-master.cfg
-RUN sed -i -r 's/^([^#]+modules).*/\1 named-pipe, collectd/' /etc/shinken/arbiters/arbiter-master.cfg
-RUN sed -i -r 's/^([^#]+modules).*/\1 collectd/' /etc/shinken/receivers/receiver-master.cfg
+RUN sed -i -r 's/^([^#]+modules).*/\1 named-pipe, Collectd/' /etc/shinken/arbiters/arbiter-master.cfg
 RUN shinken install mod-riemann
 RUN shinken install mod-collectd
+RUN sed -i -r -e 's/.*grouped_collectd_plugins\s*$/grouped_collectd_plugins cpu, df, tcpconns, disk, interface, apache, nfs, bind, mysql/' /etc/shinken/modules/collectd.cfg
 RUN shinken install graphite
 RUN sed -i -r -e 's/^([^#]+port).+$/\1 2004/' -e 's/.*graphite_data_source.*/graphite_data_source shinken/' /etc/shinken/modules/graphite.cfg
 RUN sed -i -r -e 's/^([^#]+database).+$/\1 shinken/' /etc/shinken/modules/influxdb.cfg
@@ -29,5 +29,5 @@ RUN shinken install logstore-sqlite
 RUN shinken install simple-log
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 ADD runtime_setup.sh /runtime_setup.sh
-EXPOSE 50000 7768 7769 7770 7771 7772 7773 25826
+EXPOSE 50000 7768 7769 7770 7771 7772 7773 25826/udp
 CMD /runtime_setup.sh && /usr/bin/supervisord
