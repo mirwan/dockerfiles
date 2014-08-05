@@ -7,6 +7,14 @@ else
 	sed -i -r -e "s/^(.*host).+$/\1 ${GRAPHITE_HOST}/" -e "s/^(.*port).+$/\1 ${GRAPHITE_PORT}/" /etc/shinken/modules/graphite.cfg
 fi
 
+# InfluxDB
+if [ -z "${INFLUXDB_HOST}" -o -z "${INFLUXDB_PORT}" ];
+then
+	echo "INFLUXDB_HOST and/or INFLUXDB_PORT are empty"
+else
+	sed -i -r -e "s/^(.*host).+$/\1 ${INFLUXDB_HOST}/" -e "s/^(.*port).+$/\1 ${INFLUXDB_PORT}/" /etc/shinken/modules/influxdb.cfg
+fi
+
 # Riemann
 if [ -z "${RIEMANN_HOST}" -o -z "${RIEMANN_PORT}" ];
 then
@@ -14,3 +22,5 @@ then
 else
 	sed -i -r -e "s/^(.*host).+$/\1 ${RIEMANN_HOST}/" -e "s/^(.*port).+$/\1 ${RIEMANN_PORT}/" /etc/shinken/modules/riemann.cfg
 fi
+
+

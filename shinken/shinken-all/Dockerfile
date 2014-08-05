@@ -17,10 +17,12 @@ RUN shinken install livestatus
 RUN sed -i -r 's/^([^#]+modules).*/\1 livestatus, mod-riemann, mod-influxdb, graphite/' /etc/shinken/brokers/broker-master.cfg
 #RUN sed -i -r 's/^([^#]+modules).*/\1 named-pipe, mysql-import, collectd/' /etc/shinken/arbiters/arbiter-master.cfg
 RUN sed -i -r 's/^([^#]+modules).*/\1 named-pipe, collectd/' /etc/shinken/arbiters/arbiter-master.cfg
+RUN sed -i -r 's/^([^#]+modules).*/\1 collectd/' /etc/shinken/receivers/receiver-master.cfg
 RUN shinken install mod-riemann
 RUN shinken install mod-collectd
 RUN shinken install graphite
-RUN sed -i -r -e 's/^([^#]+port).*/\1 2004/' -e 's/.*graphite_data_source.*/graphite_data_source shinken/' /etc/shinken/modules/graphite.cfg
+RUN sed -i -r -e 's/^([^#]+port).+$/\1 2004/' -e 's/.*graphite_data_source.*/graphite_data_source shinken/' /etc/shinken/modules/graphite.cfg
+RUN sed -i -r -e 's/^([^#]+database).+$/\1 shinken/' /etc/shinken/modules/influxdb.cfg
 RUN shinken install mysql-import
 RUN shinken install syslog-sink
 RUN shinken install logstore-sqlite
