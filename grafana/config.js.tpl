@@ -20,6 +20,13 @@ function (Settings) {
         password: '{{INFLUXDBPSWD | default("root")}}',
         default: false
       },
+      influxdbcollectd: {
+        type: 'influxdb',
+        url: "http://{{INFLUXDB_HOST}}:{{INFLUXDB_PORT | default("8086")}}/db/collectd",
+        username: '{{INFLUXDBUSER | default("root")}}',
+        password: '{{INFLUXDBPSWD | default("root")}}',
+        default: false
+      },
     },
 
     // elasticsearch url
