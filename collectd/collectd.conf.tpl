@@ -57,7 +57,7 @@ LoadPlugin statsd
     <Node "{{ RIEMANN_HOST }}">
         Host "{{ RIEMANN_HOST }}"
         Port {{ RIEMANN_PORT | default("5555") }}
-        Protocol UDP
+        Protocol TCP
         StoreRates true
         AlwaysAppendDS false
         Delay 10

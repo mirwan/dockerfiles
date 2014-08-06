@@ -15,4 +15,5 @@ ADD     etc_mtab /etc/mtab
 
 ADD     collectd.conf.tpl /etc/collectd/collectd.conf.tpl
 
+EXPOSE 8125
 CMD     envtpl --allow-missing /etc/collectd/collectd.conf.tpl && collectd -f
