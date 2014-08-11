@@ -23,4 +23,15 @@ else
 	sed -i -r -e "s/^(.*host).+$/\1 ${RIEMANN_HOST}/" -e "s/^(.*port).+$/\1 ${RIEMANN_PORT}/" /etc/shinken/modules/riemann.cfg
 fi
 
+# MySQL
+if [ -z "${MYSQL_HOST}" -o -z "${MYSQL_PORT}" ];
+then
+	echo "MYSQL_HOST and/or MYSQL_PORT are empty"
+else
+	sed -i -r -e "s/^(.*host)\s.+$/\1 ${MYSQL_HOST}/" /etc/shinken/modules/import_mysql.cfg
+	#iptables -t nat -A PREROUTING -p tcp --dport 3306 -j DNAT --to ${MYSQL_HOST}:${MYSQL_PORT}
+	iptables -t nat -A OUTPUT -p tcp --dst ${MYSQL_HOST} --dport 3306 -j DNAT --to-destination ${MYSQL_HOST}:${MYSQL_PORT}
+	iptables -t nat -A POSTROUTING -p tcp --dst ${MYSQL_HOST} --dport 3306 -j MASQUERADE
+fi
 
+sed -i -r -e "s/^(\s*(host_name|address)\s*).*/\1${HOSTNAME}/" -e 's/\}/alias\tlocalhost\n}/' -e "s/^(\s*use\s*).*/\1docker/" /etc/shinken/hosts/localhost.cfg
