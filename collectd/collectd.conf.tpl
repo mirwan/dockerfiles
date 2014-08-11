@@ -37,8 +37,8 @@ LoadPlugin statsd
 <Plugin statsd>
   Host "0.0.0.0"
   Port "8125"
-  DeleteSets     true
-  #TimerPercentile 90.0
+  DeleteCounters	true
+  DeleteGauges	true
 </Plugin>
 
 <Plugin df>
