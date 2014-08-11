@@ -10,6 +10,7 @@ RUN	pip install envtpl
 RUN	/usr/lib/fluent/ruby/bin/fluent-gem install fluent-plugin-statsd --no-ri --no-rdoc
 RUN	/usr/lib/fluent/ruby/bin/fluent-gem install fluent-plugin-docker-metrics --no-ri --no-rdoc
 RUN	/usr/lib/fluent/ruby/bin/fluent-gem install fluent-plugin-record-reformer --no-ri --no-rdoc
+RUN	/usr/lib/fluent/ruby/bin/fluent-gem install fluent-plugin-influxdb --no-ri --no-rdoc
 RUN	/usr/lib/fluent/ruby/bin/fluent-gem install statsd-ruby --no-ri --no-rdoc
 ADD	td-agent.conf.tpl /etc/td-agent/td-agent.conf.tpl
 ADD	mountcgroups.sh /mountcgroups.sh

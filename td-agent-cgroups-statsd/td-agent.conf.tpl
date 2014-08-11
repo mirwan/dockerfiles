@@ -1,15 +1,24 @@
 <match reformed.**>
 	# STDOUT copy is commented, you can enable it and then kill processes (supervisor will restart it)
-        #type copy
+        type copy
         #<store>
         #        type stdout
         #</store>
-        #<store>
+        <store>
                 type statsd
                 host {{ STATSD_HOST }}
                 port {{ STATSD_PORT }}
                 flush_interval 10s
-        #</store>
+        </store>
+	<store>
+		type influxdb
+		host {{ INFLUXDB_HOST }}
+		port {{ INFLUXDB_PORT }}
+		dbname fluentd
+		user  root
+		password  root
+		time_precision s
+	</store>
 </match>
 <match docker.**>
         #type copy
