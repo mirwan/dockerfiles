@@ -6,8 +6,15 @@ Timeout 2
 ReadThreads 5
 AutoLoadPlugin False
 
-LoadPlugin cpu
 LoadPlugin logfile
+<Plugin logfile>
+       LogLevel "info"
+       #File "/var/log/collectd.log"
+       File STDOUT
+       Timestamp true
+       PrintSeverity true
+</Plugin>
+LoadPlugin cpu
 LoadPlugin df
 LoadPlugin load
 LoadPlugin memory
@@ -25,12 +32,6 @@ LoadPlugin write_http
 {% endif %}
 LoadPlugin statsd
 
-<Plugin logfile>
-       LogLevel "info"
-       File "/var/log/collectd.log"
-       Timestamp true
-       PrintSeverity true
-</Plugin>
 
 
 <Plugin statsd>
@@ -60,7 +61,6 @@ LoadPlugin statsd
         Protocol TCP
         StoreRates true
         AlwaysAppendDS false
-        Delay 10
     </Node>
     Tag "collectd"
 </Plugin> 
