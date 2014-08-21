@@ -6,6 +6,7 @@ function (Settings) {
 
     // datasources, you can add multiple
     datasources: {
+{% for i in range(DS_NUMBER)%}
       influxdbgraphite: {
         type: 'influxdb',
         url: "http://{{INFLUXDB_HOST}}:{{INFLUXDB_PORT | default("8086")}}/db/graphite",
@@ -13,20 +14,7 @@ function (Settings) {
         password: '{{INFLUXDBPSWD | default("root")}}',
         default: true
       },
-      influxdbshinken: {
-        type: 'influxdb',
-        url: "http://{{INFLUXDB_HOST}}:{{INFLUXDB_PORT | default("8086")}}/db/shinken",
-        username: '{{INFLUXDBUSER | default("root")}}',
-        password: '{{INFLUXDBPSWD | default("root")}}',
-        default: false
-      },
-      influxdbcollectd: {
-        type: 'influxdb',
-        url: "http://{{INFLUXDB_HOST}}:{{INFLUXDB_PORT | default("8086")}}/db/collectd",
-        username: '{{INFLUXDBUSER | default("root")}}',
-        password: '{{INFLUXDBPSWD | default("root")}}',
-        default: false
-      },
+{% endfor %}
     },
 
     // elasticsearch url
