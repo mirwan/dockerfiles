@@ -9,6 +9,8 @@ RUN apt-get update
 RUN apt-get -y install elasticsearch apache2 git
 RUN rm -rf /var/www
 RUN git clone https://github.com/grafana/grafana.git /grafana
+WORKDIR /grafana
+RUN git checkout v1.6.1
 RUN ln -s /grafana/src /var/www
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 ADD es.conf /etc/apache2/conf.d/es.conf
